@@ -227,21 +227,21 @@ jobs:
         with:
           manifests: ./src/ContosoTraders.Api.Products/Manifests/Deployment.yaml
       - name: apply deployment manifest
-        uses: Azure/k8s-deploy@v4
+        uses: Azure/k8s-deploy@v5
         with:
           manifests: ./src/ContosoTraders.Api.Products/Manifests/Deployment.yaml
           images: ${{ env.ACR_NAME }}${{ vars.SUFFIX }}.azurecr.io/${{ env.PRODUCTS_ACR_REPOSITORY_NAME }}:${{ github.sha }}
           imagepullsecrets: ${{ env.AKS_SECRET_NAME_ACR_PASSWORD }}
           force: true
       - name: apply service manifest
-        uses: Azure/k8s-deploy@v4
+        uses: Azure/k8s-deploy@v5
         with:
           pull-images: false
           manifests: ./src/ContosoTraders.Api.Products/Manifests/Service.yaml
           force: true
       # setup chaos mesh
       - name: apply namespace manifest (chaos-testing)
-        uses: Azure/k8s-deploy@v4
+        uses: Azure/k8s-deploy@v5
         with:
           pull-images: false
           manifests: ./src/ContosoTraders.Api.Products/Manifests/NamespaceChaosTesting.yaml
@@ -277,7 +277,7 @@ jobs:
           inlineScript: echo "aksFqdn"="$(az network public-ip list --query "[?starts_with(name,'kubernetes-') ].dnsSettings.fqdn" -o tsv -g ${{ env.AKS_NODES_RESOURCE_GROUP_NAME }}${{ vars.SUFFIX }})" >> $GITHUB_OUTPUT
       # install cert-manager
       - name: apply namespace manifest (cert-manager)
-        uses: Azure/k8s-deploy@v4
+        uses: Azure/k8s-deploy@v5
         with:
           pull-images: false
           manifests: ./src/ContosoTraders.Api.Products/Manifests/NamespaceCertManager.yaml
@@ -290,7 +290,7 @@ jobs:
         run: sleep 30s
         shell: bash
       - name: apply clusterIssuer manifest
-        uses: Azure/k8s-deploy@v4
+        uses: Azure/k8s-deploy@v5
         with:
           pull-images: false
           manifests: ./src/ContosoTraders.Api.Products/Manifests/ClusterIssuer.yaml
@@ -304,7 +304,7 @@ jobs:
         env:
           AKS_FQDN: ${{ steps.get-aks-fqdn.outputs.aksFqdn }}
       - name: apply certificate manifest
-        uses: Azure/k8s-deploy@v4
+        uses: Azure/k8s-deploy@v5
         with:
           pull-images: false
           manifests: ./src/ContosoTraders.Api.Products/Manifests/Certificate.yaml
@@ -318,13 +318,13 @@ jobs:
         env:
           AKS_FQDN: ${{ steps.get-aks-fqdn.outputs.aksFqdn }}
       - name: apply ingress manifest
-        uses: Azure/k8s-deploy@v4
+        uses: Azure/k8s-deploy@v5
         with:
           pull-images: false
           manifests: ./src/ContosoTraders.Api.Products/Manifests/Ingress.yaml
           force: true
       - name: apply clusterRole manifest
-        uses: Azure/k8s-deploy@v4
+        uses: Azure/k8s-deploy@v5
         with:
           pull-images: false
           manifests: ./src/ContosoTraders.Api.Products/Manifests/ClusterRole.yaml
