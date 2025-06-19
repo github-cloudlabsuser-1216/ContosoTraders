@@ -177,7 +177,7 @@ jobs:
       # section #3: deploy the products api
       #
       - name: install helm
-        uses: Azure/setup-helm@v3
+        uses: Azure/setup-helm@v4
         id: install-helm
         with:
           version: v3.9.0
