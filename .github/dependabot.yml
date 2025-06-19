@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"  # or "pip", "nuget", "maven" based on your project
+    directory: "/"            # root folder or path to package.json
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
