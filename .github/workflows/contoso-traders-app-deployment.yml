@@ -188,7 +188,7 @@ jobs:
       - name: setup kubectl
         uses: azure/setup-kubectl@v3
       - name: create kubernetes secret (acr password)
-        uses: Azure/k8s-create-secret@v4
+        uses: Azure/k8s-create-secret@v5
         with:
           secret-name: ${{ env.AKS_SECRET_NAME_ACR_PASSWORD }}
           container-registry-url: ${{ env.ACR_NAME }}${{ vars.SUFFIX }}.azurecr.io
@@ -200,13 +200,13 @@ jobs:
         with:
           inlineScript: echo "managedIdentityClientId"="$(az identity show -g ${{ env.RESOURCE_GROUP_NAME }}${{ vars.SUFFIX }} --name ${{ env.USER_ASSIGNED_MANAGED_IDENTITY_NAME }}${{ vars.SUFFIX }} --query "clientId" -o tsv)" >> $GITHUB_OUTPUT
       - name: create kubernetes secret (kv endpoint)
-        uses: Azure/k8s-create-secret@v4
+        uses: Azure/k8s-create-secret@v5
         with:
           secret-type: "generic"
           secret-name: ${{ env.AKS_SECRET_NAME_KV_ENDPOINT }}
           string-data: '{ "${{ env.AKS_SECRET_NAME_KV_ENDPOINT }}" : "https://${{ env.KV_NAME }}${{ vars.SUFFIX }}.vault.azure.net/" }'
       - name: create kubernetes secret (managed identity client id)
-        uses: Azure/k8s-create-secret@v4
+        uses: Azure/k8s-create-secret@v5
         with:
           secret-type: "generic"
           secret-name: ${{ env.AKS_SECRET_NAME_MI_CLIENTID }}
